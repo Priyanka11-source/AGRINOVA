@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AGRINOVA – Anomaly-Free Post-Harvest Supply Chain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#060d09;--s:#0c1811;--s2:#112118;--ink:#f3f7f4;--mut:#8da596;--line:#1c3526;--g:#a3e635;--gold:#facc15;--bad:#ef6f5e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",sans-serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;display:flex;justify-content:space-between;align-items:center;padding:12px 28px;background:rgba(10,18,14,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.lg{font:700 18px Georgia,serif}.lg b{color:var(--g)}
+header nav a{color:var(--mut);text-decoration:none;margin-left:20px;font-size:14px}header nav a:hover{color:var(--g)}
+.w{max-width:1080px;margin:0 auto;padding:0 24px}
+.hero{position:relative;min-height:700px;display:flex;align-items:center;overflow:hidden;background:linear-gradient(180deg,#1b2a1c 0%,#6b4a1f 62%,#0a120e 100%)}
+.hero svg{position:absolute;inset:0;width:100%;height:100%}
+.hero .w{position:relative;z-index:2}
+.eye{letter-spacing:.3em;font-size:12px;color:var(--gold);text-transform:uppercase}
+h1{font:700 clamp(54px,11vw,128px)/.95 Georgia,serif;margin:12px 0 18px;letter-spacing:-.02em}
+h1 span{background:linear-gradient(90deg,var(--g),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:480px;color:#d9e3d6}
+.btn{display:inline-block;border:1px solid var(--g);color:var(--ink);background:none;padding:10px 20px;border-radius:99px;font:inherit;cursor:pointer;text-decoration:none;margin:4px 8px 4px 0}
+.btn.p{background:var(--g);color:#06150c;font-weight:700}
+.stats{display:flex;gap:30px;margin-top:30px;flex-wrap:wrap}.stats b{display:block;font:700 28px Georgia,serif;color:var(--gold)}.stats small{color:#c9d6c8}
+section{padding:72px 0}section h2{font:700 clamp(28px,5vw,42px) Georgia,serif;margin:6px 0 8px}.lead{color:var(--mut);max-width:560px;margin:0 0 34px}
+.chain{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.node{background:var(--s);border:1px solid var(--line);border-radius:18px;padding:18px 14px;position:relative;margin-right:26px}
+.node:last-child{margin-right:0}.node:not(:last-child):after{content:"→";position:absolute;right:-24px;top:42%;color:var(--g);font-size:20px}
+.node i{font-style:normal;font-size:30px;display:block}.node b{display:block;margin:6px 0 2px}.node small{color:var(--mut);display:block}
+.chip{display:inline-block;background:var(--s2);color:var(--g);border-radius:8px;padding:2px 8px;font-size:12px;margin-top:8px}
+.card{background:var(--s);border:1px solid var(--line);border-radius:18px;padding:20px}
+.er{width:100%;height:auto}.er rect{fill:var(--s2);stroke:var(--line)}.er .ln{stroke:var(--g);stroke-width:1.5;stroke-dasharray:6 6;animation:d 1.2s linear infinite}
+@keyframes d{to{stroke-dashoffset:-12}}.er text{fill:var(--ink);font-size:13px}.er .h{font-weight:700;fill:var(--g)}.er .m{fill:var(--mut)}
+.split{display:grid;grid-template-columns:1fr auto 1.4fr;gap:18px;align-items:center;margin-bottom:22px}
+.arrow{color:var(--gold);text-align:center;font-size:13px}.arrow big{display:block;font-size:30px}
+.x{color:var(--bad)}.ok{color:var(--g)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--mut);font-weight:500;font-size:11px;text-transform:uppercase}
+.hl{background:rgba(239,111,94,.18);color:var(--bad);font-weight:700}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin-bottom:14px}.seg button{border:0;background:none;color:var(--mut);padding:8px 16px;font:inherit;cursor:pointer}.seg .on{background:var(--g);color:#06150c;font-weight:700}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.msg{padding:12px 14px;border-radius:12px;margin-top:12px;background:rgba(95,211,141,.12);border:1px solid rgba(95,211,141,.3)}.msg.bad{background:rgba(239,111,94,.12);border-color:rgba(239,111,94,.4)}
+.ladder{display:flex;gap:10px;flex-wrap:wrap}.rung{flex:1;min-width:130px;background:var(--s);border:1px solid var(--line);border-radius:14px;padding:14px;position:relative}
+.rung:before{content:"";position:absolute;left:0;bottom:0;height:4px;width:var(--w);background:linear-gradient(90deg,var(--g),var(--gold));border-radius:0 4px 0 14px}.rung b{color:var(--gold)}.rung small{display:block;color:var(--mut)}
+.row{display:grid;grid-template-columns:1fr 70px 1fr;gap:8px;margin-bottom:8px;align-items:center}.row div{padding:8px 12px;border-radius:10px;background:var(--s2);font-size:13.5px;min-height:38px}.row .v{text-align:center;color:var(--gold);font:700 18px Georgia,serif;background:none}
+.row .e{background:none}
+.meter{position:relative;height:10px;background:var(--s2);border-radius:9px;min-width:150px}.band{position:absolute;top:0;height:100%;background:rgba(95,211,141,.35);border-radius:9px}.dot{position:absolute;top:-3px;width:16px;height:16px;border-radius:50%;margin-left:-8px;border:2px solid var(--bg);transition:left .4s}
+.pill{padding:2px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.road{display:flex;gap:0;overflow-x:auto;padding-bottom:10px}.stp{min-width:150px;flex:1;background:var(--s);border:1px solid var(--line);border-radius:16px;padding:14px;margin-right:24px;cursor:pointer;position:relative}
+.stp:not(:last-child):after{content:"→";position:absolute;right:-21px;top:40%;color:var(--g)}.stp.done{border-color:var(--g);background:var(--s2)}.stp small{color:var(--mut);display:block}.stp em{font-style:normal;color:var(--gold);font-size:12px}
+footer{padding:34px;text-align:center;color:var(--mut);border-top:1px solid var(--line)}
+.rv{opacity:0}.rv.in{opacity:1;animation:up .9s backwards}@keyframes up{from{opacity:0;transform:translateY(30px)}}
+.card,.node,.rung,.stp{background:rgba(23,42,32,.55);backdrop-filter:blur(12px);transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover,.node:hover,.rung:hover,.stp:hover{transform:translateY(-4px);border-color:var(--g);box-shadow:0 14px 40px -14px rgba(95,211,141,.4)}
+.hero svg{transition:transform .25s ease-out;transform:scale(1.06)}.hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:160px;background:linear-gradient(transparent,var(--bg));z-index:1}
+.hero .w>*{animation:up 1s backwards}.hero h1{animation-delay:.15s}.hero p{animation-delay:.3s}
+.drone{animation:fl 6s ease-in-out infinite alternate}@keyframes fl{to{transform:translate(-110px,28px)}}
+.tr{animation:drive 30s linear infinite}@keyframes drive{from{transform:translateX(-300px)}to{transform:translateX(1500px)}}
+.ff{animation:tw 3s ease-in-out infinite alternate}@keyframes tw{from{opacity:.1}to{opacity:1;transform:translateY(-16px)}}
+.gs{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}.gs div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(14px);border-radius:16px;padding:12px 20px}.gs b{font:700 30px Georgia,serif;color:var(--gold);display:block}.gs small{color:#dce7da}
+.mq{overflow:hidden;border-block:1px solid var(--line);background:#0d1812;padding:14px 0;white-space:nowrap;position:relative;z-index:2}.mq div{display:inline-block;animation:mq 34s linear infinite;color:var(--mut);letter-spacing:.22em;text-transform:uppercase;font-size:12px}.mq span{margin:0 28px}.mq span:before{content:"◆  ";color:var(--g)}@keyframes mq{to{transform:translateX(-50%)}}
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.bt{border-radius:24px;padding:24px;min-height:215px;color:var(--ink);text-decoration:none;position:relative;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;transition:transform .3s,border-color .3s}.bt:hover{transform:translateY(-5px);border-color:var(--g)}
+.bt:first-child{grid-column:span 2;grid-row:span 2;min-height:444px}.bt:before{content:attr(data-g);position:absolute;top:14px;right:20px;font-size:64px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.5))}.bt:first-child:before{font-size:130px}
+.bt b{font:700 22px Georgia,serif}.bt:first-child b{font-size:34px}.bt small{color:#c9d6c8;font-size:14px}
+.bt:nth-child(1){background:radial-gradient(circle at 80% 20%,#3b6a2a,#112019 70%)}.bt:nth-child(2){background:linear-gradient(145deg,#12384a,#0f1f1a)}.bt:nth-child(3){background:linear-gradient(145deg,#4a2f12,#14201a)}.bt:nth-child(4){background:linear-gradient(145deg,#1d4a2c,#101c15)}.bt:nth-child(5){background:linear-gradient(145deg,#3d1f45,#121a17)}
+@media(max-width:760px){.bento{grid-template-columns:1fr 1fr}.bt:first-child{grid-column:span 2;grid-row:auto;min-height:280px}}
+h1,h2,.lg,.bt b,.gs b,.row .v,.rung b,.node b,.eye,.stp b{font-family:Syne,Georgia,serif}
+body{background:radial-gradient(ellipse at 50% 0,#12220f,#060d09 65%) fixed}
+section h2:after{content:"";display:block;width:90px;height:2px;margin-top:10px;background:linear-gradient(90deg,var(--gold),transparent)}
+.hero:before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 30% 70%,rgba(163,230,53,.22),transparent 60%)}
+.hexw{background:radial-gradient(circle at 50% 30%,#12261a,#060d09);border:1px solid rgba(250,204,21,.35);border-radius:22px;padding:10px;box-shadow:inset 0 0 80px rgba(0,0,0,.6),0 0 40px -10px rgba(163,230,53,.3)}
+.hx{cursor:pointer}.hx polygon{fill:#0c1811;stroke:var(--gold);stroke-width:2;transition:fill .3s,filter .3s}.hx:hover polygon,.hx.on polygon{fill:#1f3a14;filter:drop-shadow(0 0 14px rgba(163,230,53,.7))}
+.hx text{text-anchor:middle;fill:var(--ink);font:12px Syne,serif;pointer-events:none}.hx .ic{font-size:30px}
+.dh{fill:none;stroke:rgba(250,204,21,.12)}.tok{fill:var(--gold);filter:drop-shadow(0 0 12px var(--gold))}
+.pn{display:grid;grid-template-columns:1fr 1.3fr;gap:16px;margin-top:16px}.pn pre{background:#050a09;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:12.5px;white-space:pre-wrap;color:#d9f99d;margin:0}
+.pn h3{font:700 24px Syne,serif;margin:0 0 6px;color:var(--gold)}
+.deck{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;perspective:1000px}
+.cw{height:290px;transition:transform .15s}.cn{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d;cursor:pointer}.cw.fl .cn{transform:rotateY(180deg)}
+.fc,.bc{position:absolute;inset:0;border-radius:18px;backface-visibility:hidden;padding:18px;border:2px solid var(--gold);display:flex;flex-direction:column}
+.fc{background:radial-gradient(circle at 50% 35%,#2c4a14,#0c1811 75%);align-items:center;justify-content:flex-end;text-align:center}
+.fc i{font-style:normal;font-size:76px;position:absolute;top:44px;left:0;right:0;filter:drop-shadow(0 8px 20px rgba(0,0,0,.6))}
+.fc b{font:700 20px Syne,serif}.fc small{color:var(--gold);letter-spacing:.2em;text-transform:uppercase;font-size:11px}
+.bc{transform:rotateY(180deg);background:linear-gradient(160deg,#241b0b,#0c1811);font-size:13px}.bc b{color:var(--gold);font-family:Syne,serif;font-size:17px;margin-bottom:6px}.bc div{margin:3px 0;color:#d6e2d3}.bc em{margin-top:auto;font-style:normal;color:var(--g);font-size:12px}
+.cw:hover .fc{box-shadow:0 0 34px rgba(250,204,21,.4)}
+@media(max-width:760px){.pn{grid-template-columns:1fr}}
+/* glass, floating and motion layer */
+.er .al{stroke:rgba(250,204,21,.45);stroke-width:1.2}.er .at ellipse{fill:#0e1d15;stroke:var(--gold);stroke-width:1.5}
+.er .at text,.er .rl text,.er .et{text-anchor:middle;fill:var(--ink)}.er .at text{font-size:12px}.er .rl polygon{fill:#0e1d15;stroke:var(--g);stroke-width:1.5}.er .rl text{font-size:11.5px;fill:var(--g)}
+.er .en{fill:#10281a;stroke:var(--g);stroke-width:2.2}.er .et{font:700 15px Syne,Georgia,serif}.er .cd{fill:var(--gold);font:700 15px sans-serif;text-anchor:middle}
+.er .ent,.er .at,.er .rl{cursor:pointer;transition:filter .25s}.er .ent:hover,.er .at:hover,.er .rl:hover{filter:drop-shadow(0 0 10px rgba(163,230,53,.85))}
+.pic{cursor:default;border-style:solid}.pic:after,.pic.has:after{content:none}
+body{background:#060d09}
+.orbs{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}.orbs i{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;animation:drift 20s ease-in-out infinite alternate}
+.orbs i:nth-child(1){width:460px;height:460px;left:-120px;top:8%;background:#a3e635}.orbs i:nth-child(2){width:520px;height:520px;right:-160px;top:30%;background:#7c3aed;animation-delay:-6s}.orbs i:nth-child(3){width:440px;height:440px;left:30%;top:70%;background:#14b8a6;animation-delay:-11s}.orbs i:nth-child(4){width:300px;height:300px;right:20%;top:2%;background:#facc15;opacity:.3;animation-delay:-3s}
+@keyframes drift{to{translate:80px -60px}}@keyframes fy{to{translate:0 -12px}}
+#sp{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--g),var(--gold));box-shadow:0 0 14px var(--g);z-index:100}
+header{margin:10px 16px;border-radius:99px;background:rgba(255,255,255,.07)!important;backdrop-filter:blur(20px) saturate(150%);border:1px solid rgba(255,255,255,.14);top:calc(env(safe-area-inset-top,0px) + 10px)}
+.card,.node,.rung,.fn,.gb,.hexw,.pn{background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:0 14px 44px -14px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.14)}
+.gb.ok{border-color:rgba(163,230,53,.55)}.gb.no{border-color:var(--bad)}.fn.on{border-color:var(--g)}.fn.dim{opacity:.3}
+.msg{backdrop-filter:blur(10px)}
+section[style*="background"]{background:rgba(6,13,9,.3)!important}
+.node:hover,.rung:hover,.gb:hover,.fn:hover,#dov .card:hover,.pn .card:hover,.gs div:hover{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));translate:0 -4px}
+.card:hover,.node:hover,.rung:hover,.fn:hover,.gb:hover,.hexw:hover{background-image:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(163,230,53,.17),transparent 65%),linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.025))}
+.node .pic{animation:fy 6s ease-in-out infinite alternate;box-shadow:0 14px 30px -10px rgba(0,0,0,.6)}.node:nth-child(even) .pic{animation-delay:-3s}.node i{animation:fy 4.5s ease-in-out infinite alternate}
+.gs div{animation:fy 5s ease-in-out infinite alternate}.gs div:nth-child(2){animation-delay:-1.6s}.gs div:nth-child(3){animation-delay:-3.2s}
+.fch{position:absolute;z-index:3;padding:10px 18px;border-radius:99px;background:rgba(255,255,255,.1);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.24);font-size:13px;box-shadow:0 12px 34px rgba(0,0,0,.4);animation:fy 5s ease-in-out infinite alternate}
+.hero .btn.p{animation:pulse 2.6s infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(163,230,53,.5)}70%{box-shadow:0 0 0 16px rgba(163,230,53,0)}100%{box-shadow:0 0 0 0 rgba(163,230,53,0)}}
+.btn{transition:box-shadow .25s,translate .25s,background .25s}.btn:hover{box-shadow:0 0 24px rgba(163,230,53,.55);translate:0 -2px}
+.hero .w{translate:0 calc(var(--sy,0)*.18px);opacity:calc(1 - var(--sy,0)/900)}
+.ce{background:transparent;border:1px solid transparent;padding:5px 8px;border-radius:8px;min-width:72px}.ce:hover{border-color:var(--line)}.ce:focus{border-color:var(--g);background:var(--s2)}
+@media(max-width:900px){.fch{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+input:not([type=range]),select{background:var(--s2);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;width:100%;min-width:0}input:not([type=range]):focus,select:focus{outline:none;border-color:var(--g)}
+.fl{display:block;min-width:130px;flex:1}.fl small{display:block;color:var(--mut);font-size:11px;margin-bottom:4px}
+.dform{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}.dform .btn{margin:0}
+.x{border:0;background:none;color:var(--bad);font-size:22px;cursor:pointer;line-height:1}
+.h3{font:700 22px Syne,Georgia,serif;margin:30px 0 12px}
+code{font-family:"JetBrains Mono",monospace;font-size:12.5px}
+
+.pic{height:112px;border-radius:12px;margin-bottom:10px;background:linear-gradient(135deg,var(--s2),#1f3a14) center/cover;border:1px dashed var(--line);cursor:pointer;display:flex;align-items:flex-end;justify-content:center;font-size:11px;color:var(--mut);transition:border-color .3s}.pic:hover{border-color:var(--g)}.pic{cursor:default}
+.node i{color:var(--g);font-style:normal;display:block;margin:6px 0}.fc i{color:var(--g)}
+.bt:before{content:none!important}.bti{position:absolute;top:20px;right:24px;color:var(--g);opacity:.9;filter:drop-shadow(0 6px 16px rgba(163,230,53,.35))}
+
+pre{background:#050a09;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:12.5px;overflow-x:auto;margin:0;color:#d9f99d;white-space:pre-wrap;font-family:"JetBrains Mono",monospace}
+.fr{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0 14px}.fr i{color:var(--g);font-style:normal}
+.fn{background:var(--s);border:1px solid var(--line);border-radius:14px;padding:12px 16px;color:var(--ink);cursor:pointer;text-align:left;font:inherit;transition:all .25s}.fn small{display:block;color:var(--mut);font-size:11px;letter-spacing:.1em;text-transform:uppercase}.fn b{font-family:"JetBrains Mono",monospace;font-size:13px}
+.fn:hover{border-color:var(--g)}.fn.on{border-color:var(--g);box-shadow:0 0 0 1px var(--g),0 12px 30px -10px rgba(163,230,53,.35)}.fn.dim{opacity:.3}
+.sm{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--mut);margin:0 0 14px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;background:transparent}input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:9px;background:#182c21}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:20px;width:20px;border-radius:50%;background:var(--g);border:3px solid var(--bg);margin-top:-7px;cursor:pointer;box-shadow:0 0 12px rgba(163,230,53,.7)}
+.sl{display:flex;justify-content:space-between;margin:16px 0 6px;font-size:13px}.sl b{font-family:"JetBrains Mono",monospace}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:0 0 16px}.gb{padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--s2);font-size:13px;transition:all .3s}
+.gb.ok{border-color:rgba(163,230,53,.5)}.gb.no{border-color:var(--bad);background:rgba(248,113,113,.14)}.gb small{display:block;color:var(--mut);font-size:10px;letter-spacing:.1em}.gb b{display:block;font-family:"JetBrains Mono",monospace;font-size:13px}
+
+
+@media(max-width:760px){header nav a:nth-child(n+4){display:none}.chain{grid-template-columns:1fr}.node{margin:0 0 26px}.node:not(:last-child):after{content:"↓";right:auto;left:48%;top:auto;bottom:-27px}.split{grid-template-columns:1fr}.hero{min-height:520px}}
+</style></head><body>
+<div id="sp"></div><div class="orbs"><i></i><i></i><i></i><i></i></div>
+<header><div class="lg">AGRI<b>NOVA</b></div><nav><a href="#flow">Flow</a><a href="#play">Play</a><a href="#schema">Schema</a><a href="#lab">Anomalies</a><a href="#data">Data</a><a href="#guard">Guard</a><a href="#txn">Transactions</a></nav><button class="btn p" style="margin:0" onclick="md(1)">Export SQL</button></header>
+
+<div class="hero">
+<svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+<circle cx="900" cy="330" r="90" fill="#f2b34a" opacity=".85"/><circle cx="900" cy="330" r="150" fill="#f2b34a" opacity=".15"/>
+<path d="M0 430 Q300 360 600 420 T1200 380 V600 H0Z" fill="#2a3b1f"/><path d="M0 480 Q350 410 700 470 T1200 440 V600 H0Z" fill="#183021"/>
+<path d="M0 540 Q400 490 800 535 T1200 510 V600 H0Z" fill="#0d1d14"/>
+<g stroke="#2f5a38" stroke-width="2" fill="none" opacity=".8"><path d="M0 520 Q400 470 800 515 T1200 490"/><path d="M0 560 Q400 520 800 555 T1200 535"/></g>
+<g transform="translate(1020 150)"><g class="drone" stroke="#eef3ea" stroke-width="3" fill="none"><path d="M0 0h50M25 0v-10M10 -10h30M25 0v14"/><circle cx="0" cy="0" r="5"/><circle cx="50" cy="0" r="5"/><circle cx="25" cy="20" r="4" fill="#5fd38d" stroke="none"/></g></g><g transform="translate(0 476)"><g class="tr" fill="#06100a"><rect x="20" y="-34" width="84" height="26" rx="5"/><rect x="68" y="-62" width="36" height="30" rx="5"/><circle cx="40" cy="-6" r="20"/><circle cx="100" cy="0" r="12"/></g></g><g id="ff"></g>
+</svg>
+<div class="w"><div class="eye">Post-harvest preservation · Database Engineering</div>
+<h1>AGRI<br><span>NOVA</span></h1>
+<p>One database that follows every crop from farm to market, so no record ever contradicts itself and no harvest spoils unseen.</p>
+<a class="btn p" href="#flow">See how it flows</a><a class="btn" href="#data">Add your data</a>
+</div></div>
+
+<section id="flow"><div class="w"><div class="eye">01 · The journey</div><h2>From farm to market</h2><p class="lead">Every stage writes to its own table. Nothing is repeated, so nothing can disagree.</p><div class="chain" id="chain"></div></div></section>
+
+<section id="play"><div class="w"><div class="eye">How to play</div><h2>Walk a harvest across the board</h2><p class="lead">Press next turn and a glowing crate travels from farm to market. Each hex runs the SQL shown below the board.</p>
+<div class="hexw"><svg id="hx" viewBox="0 0 900 400" style="width:100%;display:block"></svg></div>
+<div style="margin:14px 0"><button class="btn p" onclick="turn()">Next turn ▶</button><button class="btn" onclick="go(0)">Restart</button></div>
+<div class="pn card"><div id="pi"></div><pre id="pq"></pre></div></div></section>
+<section id="schema"><div class="w"><div class="eye">Relational blueprint</div><h2>BCNF table map</h2><p class="lead">Parents feed the Batch hub, and Batch feeds the sensor stream. Pick a query path to light up the tables it joins, then click any table to read its DDL and rows.</p>
+<div class="seg" id="pf"></div><p class="sm" id="sm"></p><div class="fr" id="fr"></div>
+<div class="two"><pre id="dd"></pre><div class="card" style="overflow-x:auto" id="tp"></div></div></div></section>
+<section id="er" style="background:var(--s)"><div class="w"><div class="eye">02 · The design</div><h2>Entity-relationship diagram</h2><p class="lead">Batch sits at the centre. Every other table links to it with a foreign key.</p><div class="card" style="overflow-x:auto"><svg class="er" id="ersvg" viewBox="0 0 1240 790" style="min-width:820px;width:100%"></svg></div><p class="sm" style="margin-top:12px">Rectangle = entity · Oval = attribute (underlined = primary key) · Diamond = relationship · 1 and N = cardinality. Foreign keys appear as the relationships.</p>
+<div style="margin-top:30px"><div class="eye">Normalization ladder</div><div class="ladder" id="lad" style="margin-top:12px"></div></div></div></section>
+
+<section id="lab"><div class="w"><div class="eye">03 · Why it matters</div><h2>Anomaly lab</h2><p class="lead">Same three operations, two designs. Press the buttons and watch what breaks.</p>
+<div class="split"><div class="card"><b class="x">One flat table</b><small style="display:block;color:var(--mut)">batch · crop · warehouse · city</small></div><div class="arrow"><big>→</big>split by<br>dependency</div><div class="card"><b class="ok">Warehouse + Batch + Crop</b><small style="display:block;color:var(--mut)">each fact stored exactly once</small></div></div>
+<div class="seg"><button id="m1" onclick="mode='flat';lab0();lab()">Unnormalized</button><button id="m2" onclick="mode='norm';lab0();lab()">Normalized</button></div>
+<div id="labv"></div></div></section>
+
+<section id="data"><div class="w"><div class="eye">Your data</div><h2>Data studio</h2><p class="lead">Add your own rows and the database enforces its rules: keys, foreign keys, warehouse capacity and temperature limits. Everything is saved in your browser.</p>
+<div class="seg" id="dtabs"></div>
+<div class="card"><div class="dform" id="dform"></div><div id="dmsg"></div><div style="overflow-x:auto;margin-top:14px" id="dtab"></div>
+<div style="margin-top:14px"><button class="btn" onclick="rdb()">Reset sample data</button><button class="btn" onclick="md(1)">Export SQL with my data</button></div></div>
+<div class="h3">Live overview</div><div class="two" id="dov"></div><div class="card" style="margin-top:14px"><b>Warehouse space</b><div style="margin-top:12px" id="dwh"></div></div></div></section>
+
+<section id="guard" style="background:var(--s)"><div class="w"><div class="eye">ACID gate</div><h2>Cold-chain guard</h2><p class="lead">Send a sensor packet. CHECK constraints (≤ 4.0 °C, ≤ 1.0 ppm) decide whether it commits or rolls back.</p>
+<div class="two"><div class="card"><b>IoT packet · Batch 101</b>
+<div class="sl"><span>Temperature</span><b id="gtv"></b></div><input id="gt" type="range" min="0" max="12" step="0.1" value="2.4" oninput="ev()">
+<div class="sl"><span>Ethylene</span><b id="gpv"></b></div><input id="gp" type="range" min="0.1" max="3" step="0.1" value="0.4" oninput="ev()">
+<div style="margin-top:18px"><button class="btn" onclick="ps(2.4,.4)">Optimal 2.4 °C</button><button class="btn" onclick="ps(8.5,1.8)">Thermal spike 8.5 °C</button><button class="btn p" onclick="snd()">Send packet</button></div></div>
+<div class="card"><b id="gst">State</b><div class="g4" id="g4" style="margin-top:12px"></div><div style="overflow-x:auto"><table><tr><th>TX</th><th>Packet</th><th>Decision</th></tr><tbody id="gl"></tbody></table></div></div></div></div></section>
+<section id="txn"><div class="w"><div class="eye">05 · Concurrency</div><h2>Two buyers, one cold room</h2><p class="lead">Set the free space and each booking. Both arrive at the same instant.</p><div class="dform" style="margin-bottom:16px"><label class="fl"><small>Free units</small><input id="tc" type="number" min="0" value="10" oninput="run()"></label><label class="fl"><small>T1 books</small><input id="ta" type="number" min="0" value="4" oninput="run()"></label><label class="fl"><small>T2 books</small><input id="tb" type="number" min="0" value="5" oninput="run()"></label></div><div class="seg"><button id="l1" onclick="lock=true;run()">With locking</button><button id="l2" onclick="lock=false;run()">No control</button></div>
+<div class="card"><div class="row"><div class="e"><b>T1</b></div><div class="v e">free</div><div class="e"><b>T2</b></div></div><div id="tx"></div></div></div></section>
+
+<footer>AGRINOVA · Database Engineering innovative assignment · Anomaly-free supply chain for post-harvest preservation</footer>
+
+<div id="md" style="display:none;position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.82);align-items:center;justify-content:center;padding:16px"><div class="card" style="max-width:680px;width:100%"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><b style="color:var(--g);font-family:'JetBrains Mono',monospace;font-size:13px">agrinova_schema.sql</b><span><button class="btn p" id="cb" onclick="cp()">Copy SQL</button><button class="btn" onclick="md(0)">Close</button></span></div><pre id="mp" style="max-height:62vh;overflow:auto"></pre></div></div>
+<script>
+const $=s=>document.querySelector(s),E='http://www.w3.org/2000/svg';
+const IC={leaf:'<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',box:'<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',snow:'<path d="M12 2v20M4.9 7l14.2 10M4.9 17L19.1 7"/>',truck:'<path d="M1 6h13v10H1zM14 10h4l3 3v3h-7"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',store:'<path d="M3 9l1-5h16l1 5M4 9v11h16V9M9 20v-6h6v6"/>',shield:'<path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/>',lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',map:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/>',tool:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3 17.7 6.3 21l6.3-6.3a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',building:'<path d="M3 21V9l9-5 9 5v12M3 21h18M8 21v-7h8v7"/>',thermo:'<path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/>'};
+const ico=(n,s)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${IC[n]}</svg>`;
+
+/* flow */
+$('#chain').innerHTML=[['leaf','Farm','Farmer','Farmer registered'],['box','Harvest','Batch · Crop','Qty and shelf life logged'],['snow','Cold storage','Warehouse · SensorReading','Temperature every 15 min'],['truck','Transport','Shipment','Route and dispatch time'],['store','Market','Batch','Sold before expiry']].map(n=>`<div class="node"><div class="pic" data-k="${n[0]}"></div><i>${ico(n[0],32)}</i><b>${n[1]}</b><small>${n[3]}</small><span class="chip">${n[2]}</span></div>`).join('');
+/* ER diagram, Chen notation */
+const EN={farmer:['Farmer',200,170,['farmer_id','name','village'],-135],crop:['Crop',600,170,['crop_id','crop_name','temp_max','ethylene_max'],-90],wh:['Warehouse',1000,170,['wh_id','name','city','capacity_kg'],-45],batch:['Batch',600,380,['batch_id','qty_kg'],90],read:['SensorReading',200,610,['reading_id','temp_c','ethylene_ppm','ts'],135],ship:['Shipment',1000,610,['trip_id','vehicle','dispatch_ts'],45]};
+const RL=[['farmer','grows'],['crop','is of'],['wh','stores'],['read','monitored by'],['ship','shipped in']];
+{let L='',O='',R='',E='';const B0=EN.batch,rd=a=>a*Math.PI/180,edge=(u,w,h)=>Math.min(w/Math.abs(u[0]||1e-9),h/Math.abs(u[1]||1e-9));
+ Object.values(EN).forEach(e=>{const n=e[3].length;e[3].forEach((a,i)=>{const th=rd(e[4]+(i-(n-1)/2)*48),r=n==2?118:138,x=e[1]+r*Math.cos(th),y=e[2]+r*Math.sin(th);L+=`<line class="al" x1="${e[1]}" y1="${e[2]}" x2="${x}" y2="${y}"/>`;O+=`<g class="at"><ellipse cx="${x}" cy="${y}" rx="56" ry="19"/><text x="${x}" y="${y+4}"${i==0?' text-decoration="underline"':''}>${a}</text></g>`})});
+ RL.forEach(([k,lab])=>{const e=EN[k],mx=(e[1]+B0[1])/2,my=(e[2]+B0[2])/2,dx=B0[1]-e[1],dy=B0[2]-e[2],d=Math.hypot(dx,dy),u=[dx/d,dy/d],a=edge(u,68,24)+18,b=edge(u,75,27)+18,nx=-u[1]*13,ny=u[0]*13;
+  L+=`<line class="ln" x1="${e[1]}" y1="${e[2]}" x2="${B0[1]}" y2="${B0[2]}"/>`;
+  R+=`<g class="rl"><polygon points="${mx},${my-32} ${mx+66},${my} ${mx},${my+32} ${mx-66},${my}"/><text x="${mx}" y="${my+4}">${lab}</text></g><text class="cd" x="${e[1]+u[0]*a+nx}" y="${e[2]+u[1]*a+ny+5}">1</text><text class="cd" x="${B0[1]-u[0]*b+nx}" y="${B0[2]-u[1]*b+ny+5}">N</text>`});
+ Object.values(EN).forEach(e=>{const w=e==B0?150:136,h=e==B0?54:48;E+=`<g class="ent"><rect class="en" x="${e[1]-w/2}" y="${e[2]-h/2}" width="${w}" height="${h}" rx="6"/><text class="et" x="${e[1]}" y="${e[2]+5}">${e[0]}</text></g>`});
+ $('#ersvg').innerHTML=L+O+R+E}
+$('#lad').innerHTML=[['1NF','Atomic values','25%'],['2NF','No partial dependency','50%'],['3NF','No transitive dependency','75%'],['BCNF','Every determinant is a key','100%']].map(r=>`<div class="rung" style="--w:${r[2]}"><b>${r[0]}</b><small>${r[1]}</small></div>`).join('');
+/* anomaly lab */
+let mode='flat',flat,wh,bt,note='';
+function lab0(){flat=[['B101','Tomato','W1','Cuttack'],['B102','Mango','W1','Cuttack'],['B103','Potato','W2','Sambalpur']];wh={W1:'Cuttack',W2:'Sambalpur'};bt=[['B101','Tomato','W1'],['B102','Mango','W1'],['B103','Potato','W2']];note=''}
+lab0();
+const tb=(h,r,hl)=>`<div style="overflow-x:auto"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${r.map(x=>`<tr>${x.map((y,i)=>`<td class="${hl&&hl(x,i)?'hl':''}">${y}</td>`).join('')}</tr>`).join('')}</table></div>`;
+function lab(){$('#m1').className=mode=='flat'?'on':'';$('#m2').className=mode!='flat'?'on':'';
+ const body=mode=='flat'?`<div class="card">${tb(['batch','crop','wh','city'],flat,(r,i)=>i==3&&r[2]=='W1'&&flat.some(z=>z[2]=='W1'&&z[3]!=r[3]))}</div>`:`<div class="two"><div class="card"><b>Warehouse</b>${tb(['wh','city'],Object.entries(wh))}</div><div class="card"><b>Batch</b>${tb(['batch','crop','wh'],bt)}</div></div>`;
+ $('#labv').innerHTML=body+`<div style="margin-top:14px"><button class="btn" onclick="act('u')">Update W1 city</button><button class="btn" onclick="act('i')">Insert warehouse W3</button><button class="btn" onclick="act('d')">Delete batch B103</button><button class="btn" onclick="lab0();lab()">Reset</button></div>`+(note?`<div class="msg ${note[0]=='x'?'bad':''}">${note.slice(1)}</div>`:'')}
+function act(a){
+ if(mode=='flat'){
+  if(a=='u'){flat[0][3]='Bhubaneswar';note='xUpdate anomaly: only one W1 row changed, so W1 now has two cities.'}
+  if(a=='i'){note='xInsertion anomaly: W3 has no batch yet, so the key batch_id would be NULL. Row rejected.'}
+  if(a=='d'){flat=flat.filter(r=>r[0]!='B103');note='xDeletion anomaly: deleting B103 also erased everything known about W2.'}
+ }else{
+  if(a=='u'){wh.W1='Bhubaneswar';note='✓ One UPDATE on Warehouse. Every batch sees the new city.'}
+  if(a=='i'){wh.W3='Rourkela';note='✓ W3 is stored on its own, no batch needed.'}
+  if(a=='d'){bt=bt.filter(r=>r[0]!='B103');note='✓ Batch removed. Warehouse W2 is still on record.'}
+ }lab()}
+lab();
+/* transactions */
+let lock=true;
+function run(){$('#l1').className=lock?'on':'';$('#l2').className=!lock?'on':'';
+ const R=lock?[[0,'LOCK · read 10',10],[2,'waits for lock…',10],[0,'write 6 · COMMIT',6],[2,'LOCK · read 6',6],[2,'write 1 · COMMIT',1]]:[[0,'read 10',10],[2,'read 10',10],[0,'write 6 · COMMIT',6],[2,'write 5 · COMMIT (overwrites T1)',5]];
+ $('#tx').innerHTML=R.map(r=>`<div class="row"><div class="${r[0]?'e':''}">${r[0]?'':r[1]}</div><div class="v">${r[2]}</div><div class="${r[0]?'':'e'}">${r[0]?r[1]:''}</div></div>`).join('')+(lock?`<div class="msg">✓ 9 units booked, 1 left. Both bookings counted.</div>`:`<div class="msg bad">9 units booked but 5 shown as free. T1’s booking was lost.</div>`)}
+run();
+/* life */
+const ff=$('#ff');for(let i=0;i<30;i++)ff.innerHTML+=`<circle class="ff" cx="${Math.random()*1200}" cy="${180+Math.random()*380}" r="${1.4+Math.random()*2}" fill="#f6d77a" style="animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*3}s"/>`;
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('section .w>*,.node,.rung,.bt').forEach(e=>{e.classList.add('rv');io.observe(e)});
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);const n=+e.target.dataset.c;let k=0;const t=setInterval(()=>{k++;e.target.textContent=Math.round(n*k/30);if(k>=30)clearInterval(t)},40)}));
+document.querySelectorAll('[data-c]').forEach(e=>co.observe(e));
+/* board */
+const HX=[[110,300,'leaf','Farm'],[280,185,'box','Harvest'],[450,290,'snow','Cold room'],[620,170,'truck','Transport'],[790,260,'store','Market']];
+const ST=[['The farmer joins','Farmer',`INSERT INTO Farmer VALUES (7, 'Mohan Sahu', 'Banposh');`,'One new farmer row. Nothing else has to change.'],['Harvest is logged','Batch · Crop',`INSERT INTO Batch (batch_id, farmer_id, crop_id, wh_id, qty_kg) VALUES (101, 7, 2, 1, 800);`,'Foreign keys tie the batch to its farmer, crop and warehouse.'],['Cold room watches it','SensorReading',`INSERT INTO SensorReading (batch_id, temp_c) VALUES (101, 11.8);`,'A new reading every 15 minutes. Out-of-range values raise an alert.'],['The crate ships','Shipment',`INSERT INTO Shipment (batch_id, from_wh, to_wh) VALUES (101, 1, 3);`,'Route and dispatch time are stored once, linked by batch_id.'],['Buyers see one truth','Batch · Crop · Warehouse',`SELECT crop_name, qty_kg, city FROM Batch JOIN Crop USING (crop_id) JOIN Warehouse USING (wh_id) WHERE batch_id = 101;`,'Joins rebuild the full picture, with no repeated or conflicting data.']];
+const hp=(x,y,r)=>[0,1,2,3,4,5].map(k=>{const a=Math.PI/180*(60*k+30);return(x+r*Math.cos(a)).toFixed(1)+','+(y+r*Math.sin(a)).toFixed(1)}).join(' ');
+let h='';for(let r=0;r<5;r++)for(let c=0;c<10;c++)h+=`<polygon class="dh" points="${hp(45+c*97+(r%2)*48,40+r*84,48)}"/>`;
+h+=`<path d="M${HX.map(p=>p[0]+' '+p[1]).join(' L')}" fill="none" stroke="#facc15" stroke-width="2" stroke-dasharray="4 8" opacity=".6"/>`;
+HX.forEach((p,i)=>h+=`<g class="hx" id="hx${i}" onclick="go(${i})"><polygon points="${hp(p[0],p[1],64)}"/><svg x="${p[0]-17}" y="${p[1]-36}" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#a3e635" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none">${IC[p[2]]}</svg><text x="${p[0]}" y="${p[1]+36}">${p[3]}</text></g>`);
+h+=`<circle class="tok" id="tk" r="11" cx="${HX[0][0]}" cy="${HX[0][1]-48}"/>`;$('#hx').innerHTML=h;
+let cur=0,tp=[HX[0][0],HX[0][1]-48];
+function go(i){cur=i;const a=tp.slice(),b=[HX[i][0],HX[i][1]-48],t0=performance.now();
+ (function f(t){const k=Math.min(1,(t-t0)/700),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;tp=[a[0]+(b[0]-a[0])*e,a[1]+(b[1]-a[1])*e-Math.sin(k*Math.PI)*30];$('#tk').setAttribute('cx',tp[0]);$('#tk').setAttribute('cy',tp[1]);if(k<1)requestAnimationFrame(f);else tp=b})(t0);
+ HX.forEach((_,j)=>$('#hx'+j).classList.toggle('on',j==i));
+ $('#pi').innerHTML=`<h3>Turn ${i+1} · ${ST[i][0]}</h3><p>${ST[i][3]}</p><span class="chip">${ST[i][1]}</span>`;$('#pq').textContent=ST[i][2]}
+function turn(){go((cur+1)%5)}go(0);
+/* sparkles */
+const cv=document.createElement('canvas');cv.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:50';document.body.appendChild(cv);const cx=cv.getContext('2d');let P=[];
+function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();addEventListener('resize',rs);
+addEventListener('mousemove',e=>{for(let i=0;i<2;i++)P.push({x:e.clientX,y:e.clientY,vx:Math.random()*2-1,vy:Math.random()*2-1.5,l:1})});
+(function f(){cx.clearRect(0,0,cv.width,cv.height);P=P.filter(p=>p.l>0);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.l-=.03;cx.globalAlpha=p.l;cx.fillStyle='#facc15';cx.beginPath();cx.arc(p.x,p.y,2,0,6.3);cx.fill()});requestAnimationFrame(f)})();
+
+addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-.5)*-18,y=(e.clientY/innerHeight-.5)*-10;$('.hero svg').style.transform=`scale(1.06) translate(${x}px,${y}px)`});
+/* schema inspector */
+const TB={
+farmer:['Farmer','Tier 1',`CREATE TABLE Farmer (\n  farmer_id INT PRIMARY KEY,\n  name VARCHAR(60) NOT NULL,\n  village VARCHAR(50)\n);`,['farmer_id','name','village'],[[7,'Mohan Sahu','Banposh'],[8,'S. Pradhan','Cuttack'],[9,'K. Behera','Khordha']]],
+crop:['Crop','Tier 1',`CREATE TABLE Crop (\n  crop_id INT PRIMARY KEY,\n  crop_name VARCHAR(40) NOT NULL UNIQUE,\n  temp_max DECIMAL(4,1) NOT NULL,\n  ethylene_max DECIMAL(4,2) NOT NULL\n);`,['crop_id','crop_name','temp_max','ethylene_max'],[[2,'Alphonso Mango',4.0,1.0],[3,'Lychee',2.5,0.6],[4,'Turmeric',8.0,1.5]]],
+wh:['Warehouse','Tier 1',`CREATE TABLE Warehouse (\n  wh_id INT PRIMARY KEY,\n  name VARCHAR(60),\n  city VARCHAR(40),\n  capacity_kg INT CHECK (capacity_kg > 0)\n);`,['wh_id','name','city','capacity_kg'],[[1,'Cuttack Cold Store','Cuttack',45000],[2,'Sambalpur Silo','Sambalpur',32000],[3,'Berhampur Hub','Berhampur',60000]]],
+batch:['Batch','Tier 2',`CREATE TABLE Batch (\n  batch_id INT PRIMARY KEY,\n  farmer_id INT NOT NULL REFERENCES Farmer,\n  crop_id INT NOT NULL REFERENCES Crop,\n  wh_id INT NOT NULL REFERENCES Warehouse,\n  qty_kg INT CHECK (qty_kg > 0)\n);`,['batch_id','farmer_id','crop_id','wh_id','qty_kg'],[[101,7,2,1,800],[102,8,3,2,2400],[103,9,4,3,1120]]],
+read:['SensorReading','Tier 3',`CREATE TABLE SensorReading (\n  reading_id SERIAL PRIMARY KEY,\n  batch_id INT NOT NULL REFERENCES Batch ON DELETE CASCADE,\n  temp_c DECIMAL(4,1) CHECK (temp_c <= 4.0),\n  ethylene_ppm DECIMAL(4,2) CHECK (ethylene_ppm <= 1.0),\n  ts TIMESTAMP DEFAULT NOW()\n);`,['reading_id','batch_id','temp_c','ethylene_ppm','ts'],[[9001,101,2.4,0.40,'09:00:00'],[9002,102,2.1,0.35,'09:15:00'],[9003,101,2.3,0.42,'09:30:00']]]};
+const PA={all:['All tables',Object.keys(TB),'Lossless join: Farmer ⋈ Crop ⋈ Warehouse ⋈ Batch ⋈ SensorReading'],spoil:['Spoilage risk',['crop','batch','read'],'π batch_id, crop_name, temp_c (Crop ⋈ Batch ⋈ SensorReading)'],prod:['Producer trace',['farmer','batch','crop'],'π name, village, batch_id, crop_name (Farmer ⋈ Batch ⋈ Crop)'],silo:['Capacity audit',['wh','batch'],'γ wh_id, capacity_kg, SUM(qty_kg) (Warehouse ⋈ Batch)']};
+let pth='all',tk='batch';
+function sch(){$('#pf').innerHTML=Object.keys(PA).map(k=>`<button class="${k==pth?'on':''}" onclick="pth='${k}';sch()">${PA[k][0]}</button>`).join('');$('#sm').textContent=PA[pth][2];
+ $('#fr').innerHTML=Object.keys(TB).map((k,i)=>`<button class="fn ${k==tk?'on':''} ${PA[pth][1].includes(k)?'':'dim'}" onclick="tk='${k}';sch()"><small>${TB[k][1]}</small><b>${TB[k][0]}</b></button>`+(i<4?'<i>→</i>':'')).join('');
+ const t=TB[tk];$('#dd').textContent=t[2];$('#tp').innerHTML=`<table><tr>${t[3].map(h=>`<th>${h}</th>`).join('')}</tr>${t[4].map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table>`}
+sch();
+/* ACID guard */
+let tx=804,LG=[[803,'2.4 °C / 0.4 ppm',1],[802,'8.5 °C / 1.8 ppm',0],[801,'2.1 °C / 0.3 ppm',1]];
+function ps(t,p){$('#gt').value=t;$('#gp').value=p;ev()}
+function ev(){const t=+$('#gt').value,p=+$('#gp').value,ok=t<=4&&p<=1;
+ $('#gtv').textContent=t.toFixed(1)+' °C';$('#gpv').textContent=p.toFixed(1)+' ppm';$('#gtv').style.color=t<=4?'var(--g)':'var(--bad)';$('#gpv').style.color=p<=1?'var(--g)':'var(--bad)';
+ $('#gst').innerHTML=ok?'<span style="color:var(--g)">STATE · READY TO COMMIT</span>':'<span style="color:var(--bad)">STATE · AUTOMATIC ROLLBACK</span>';
+ $('#g4').innerHTML=[['STEP 1','BEGIN · 2PL lock',1],['STEP 2','CHECK',ok],['STEP 3',ok?'COMMIT':'ROLLBACK',ok],['STEP 4',ok?'Batch preserved':'Ledger protected',ok]].map(b=>`<div class="gb ${b[2]?'ok':'no'}"><small>${b[0]}</small><b>${b[1]}</b>${b[0]=='STEP 2'?`<small style="margin-top:4px">${ok?'passed ✓':'breach ✗'}</small>`:''}</div>`).join('');
+ $('#gl').innerHTML=LG.map(r=>`<tr><td>TX-${r[0]}</td><td>${r[1]}</td><td style="font-weight:700;color:var(${r[2]?'--g':'--bad'})">${r[2]?'COMMIT':'ROLLBACK'}</td></tr>`).join('')}
+function snd(){const t=+$('#gt').value,p=+$('#gp').value;LG.unshift([tx++,t.toFixed(1)+' °C / '+p.toFixed(1)+' ppm',t<=4&&p<=1?1:0]);LG=LG.slice(0,4);ev()}
+ev();
+/* SQL export */
+function md(s){$('#md').style.display=s?'flex':'none';if(s)$('#mp').textContent='-- AGRINOVA: BCNF post-harvest preservation schema\n'+Object.values(TB).map(t=>t[2]).join('\n\n')+'\n\nCREATE TABLE Shipment (\n  trip_id INT PRIMARY KEY,\n  batch_id INT NOT NULL REFERENCES Batch,\n  from_wh INT REFERENCES Warehouse,\n  to_wh INT REFERENCES Warehouse,\n  vehicle VARCHAR(30),\n  dispatch_ts TIMESTAMP\n);'}
+function cp(){const a=document.createElement('textarea');a.value=$('#mp').textContent;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();$('#cb').textContent='Copied ✓';setTimeout(()=>$('#cb').textContent='Copy SQL',1800)}
+/* illustrated scenes shown until a real photo is added */
+const H='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 112">',
+SC={
+leaf:H+'<defs><linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3a1c"/><stop offset=".65" stop-color="#d98c2b"/></linearGradient></defs><rect width="240" height="112" fill="url(#a)"/><circle cx="178" cy="54" r="17" fill="#facc15"/><path d="M0 70Q60 54 120 68T240 62V112H0z" fill="#31501f"/><path d="M0 88Q80 72 160 86T240 80V112H0z" fill="#1e3a14"/><g stroke="#a3e635" stroke-width="1.6" fill="none" opacity=".65"><path d="M0 98Q80 84 240 92M0 108Q80 95 240 103"/></g><g fill="#0b1a0e"><rect x="40" y="52" width="3" height="22"/><circle cx="41.5" cy="50" r="5"/></g></svg>',
+box:H+'<rect width="240" height="112" fill="#12261a"/><rect y="86" width="240" height="26" fill="#0c1811"/><g fill="#8a5a2b" stroke="#5c3a18"><rect x="22" y="62" width="70" height="30" rx="3"/><rect x="100" y="62" width="70" height="30" rx="3"/><rect x="62" y="34" width="70" height="30" rx="3"/></g><g stroke="#5c3a18"><path d="M22 72h70M100 72h70M62 44h70"/></g><g><circle cx="40" cy="58" r="7" fill="#ef4444"/><circle cx="56" cy="57" r="7" fill="#f97316"/><circle cx="74" cy="58" r="7" fill="#ef4444"/><circle cx="118" cy="58" r="7" fill="#a3e635"/><circle cx="136" cy="57" r="7" fill="#facc15"/><circle cx="154" cy="58" r="7" fill="#a3e635"/><circle cx="82" cy="30" r="7" fill="#f97316"/><circle cx="100" cy="29" r="7" fill="#ef4444"/><circle cx="116" cy="30" r="7" fill="#f97316"/></g></svg>',
+snow:H+'<defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e3a4d"/><stop offset="1" stop-color="#08161d"/></linearGradient></defs><rect width="240" height="112" fill="url(#b)"/><g stroke="#7dd3fc" stroke-width="2" opacity=".6"><path d="M10 40h220M10 70h220M10 100h220"/></g><g fill="#cfeaf5"><rect x="20" y="26" width="30" height="14"/><rect x="56" y="26" width="30" height="14"/><rect x="150" y="26" width="30" height="14"/><rect x="190" y="26" width="30" height="14"/><rect x="30" y="56" width="30" height="14"/><rect x="100" y="56" width="30" height="14"/><rect x="170" y="56" width="30" height="14"/><rect x="60" y="86" width="30" height="14"/><rect x="130" y="86" width="30" height="14"/></g><g stroke="#e0f2fe" stroke-width="1.5" opacity=".8"><path d="M118 8v18M110 12l16 10M126 12l-16 10"/></g></svg>',
+truck:H+'<defs><linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16301f"/><stop offset="1" stop-color="#3a4a22"/></linearGradient></defs><rect width="240" height="112" fill="url(#c)"/><rect y="84" width="240" height="28" fill="#1a1f1b"/><path d="M0 98h240" stroke="#facc15" stroke-dasharray="14 10" stroke-width="2"/><rect x="40" y="38" width="100" height="46" rx="4" fill="#e8f0e6"/><path d="M140 52h30l16 16v16h-46z" fill="#a3e635"/><path d="M150 56h16l10 10h-26z" fill="#0c1811"/><circle cx="68" cy="86" r="10" fill="#0c1811" stroke="#e8f0e6" stroke-width="3"/><circle cx="160" cy="86" r="10" fill="#0c1811" stroke="#e8f0e6" stroke-width="3"/><g stroke="#a3e635" opacity=".6" stroke-width="2"><path d="M8 48h24M2 60h30M12 72h20"/></g></svg>',
+store:H+'<rect width="240" height="112" fill="#12261a"/><g><rect x="30" y="14" width="30" height="26" fill="#a3e635"/><rect x="60" y="14" width="30" height="26" fill="#e8f0e6"/><rect x="90" y="14" width="30" height="26" fill="#a3e635"/><rect x="120" y="14" width="30" height="26" fill="#e8f0e6"/><rect x="150" y="14" width="30" height="26" fill="#a3e635"/><rect x="180" y="14" width="30" height="26" fill="#e8f0e6"/></g><rect x="36" y="40" width="4" height="52" fill="#5c3a18"/><rect x="200" y="40" width="4" height="52" fill="#5c3a18"/><rect x="26" y="74" width="188" height="30" rx="3" fill="#8a5a2b"/><g><circle cx="56" cy="68" r="9" fill="#ef4444"/><circle cx="76" cy="69" r="9" fill="#f97316"/><circle cx="110" cy="68" r="9" fill="#a3e635"/><circle cx="130" cy="69" r="9" fill="#facc15"/><circle cx="164" cy="68" r="9" fill="#ef4444"/><circle cx="184" cy="69" r="9" fill="#a3e635"/></g></svg>'};
+document.querySelectorAll('.pic').forEach(el=>{el.style.backgroundImage=`url("data:image/svg+xml,${encodeURIComponent(SC[el.dataset.k])}")`});
+/* photos: put data URIs here to bake them in, e.g. IMG.leaf='data:image/jpeg;base64,...' */
+const IMG={};
+const paint=(el,src)=>{el.style.backgroundImage=`url(${src})`;el.classList.add('has')};
+document.querySelectorAll('.pic').forEach(el=>{if(IMG[el.dataset.k])paint(el,IMG[el.dataset.k])});
+/* auto-load photos from an images/ folder when hosted as a website */
+const FN={leaf:'farm',box:'harvest',snow:'cold',truck:'transport',store:'market'};
+document.querySelectorAll('.pic').forEach(el=>{const im=new Image();im.onload=()=>paint(el,im.src);im.src='images/'+FN[el.dataset.k]+'.jpg'});
+const hi=new Image();hi.onload=()=>{$('.hero').style.background=`linear-gradient(rgba(6,13,9,.5),rgba(6,13,9,.85)),url(${hi.src}) center/cover`;$('.hero svg').style.opacity=.2};hi.src='images/hero.jpg';
+/* data studio: a tiny relational engine in the browser */
+const SEED=()=>({
+farmer:[
+  {farmer_id:7,name:'Mohan Sahu',village:'Banposh'},
+  {farmer_id:8,name:'S. Pradhan',village:'Cuttack'},
+  {farmer_id:9,name:'K. Behera',village:'Khordha'},
+  {farmer_id:10,name:'R. Majhi',village:'Koraput'},
+  {farmer_id:11,name:'B. Jena',village:'Puri'}
+],
+crop:[
+  {crop_id:2,crop_name:'Alphonso Mango',temp_max:4.0,ethylene_max:1.00},
+  {crop_id:3,crop_name:'Lychee',temp_max:2.5,ethylene_max:0.60},
+  {crop_id:4,crop_name:'Turmeric',temp_max:8.0,ethylene_max:1.50},
+  {crop_id:5,crop_name:'Nagpur Orange',temp_max:6.0,ethylene_max:0.80},
+  {crop_id:6,crop_name:'Sweet Baby Corn',temp_max:3.5,ethylene_max:0.50}
+],
+wh:[
+  {wh_id:1,name:'Cuttack Cold Store',city:'Cuttack',capacity_kg:45000},
+  {wh_id:2,name:'Sambalpur Silo',city:'Sambalpur',capacity_kg:32000},
+  {wh_id:3,name:'Berhampur Hub',city:'Berhampur',capacity_kg:60000},
+  {wh_id:4,name:'Bhubaneswar AgroLogistics',city:'Bhubaneswar',capacity_kg:80000}
+],
+batch:[
+  {batch_id:101,farmer_id:7,crop_id:2,wh_id:1,qty_kg:800},
+  {batch_id:102,farmer_id:8,crop_id:3,wh_id:2,qty_kg:2400},
+  {batch_id:103,farmer_id:9,crop_id:4,wh_id:3,qty_kg:1120},
+  {batch_id:104,farmer_id:10,crop_id:5,wh_id:2,qty_kg:3500},
+  {batch_id:105,farmer_id:11,crop_id:2,wh_id:4,qty_kg:1500}
+],
+read:[
+  {reading_id:9001,batch_id:101,temp_c:2.4,ethylene_ppm:0.40,ts:'09:00:00'},
+  {reading_id:9002,batch_id:102,temp_c:2.1,ethylene_ppm:0.35,ts:'09:15:00'},
+  {reading_id:9003,batch_id:101,temp_c:2.3,ethylene_ppm:0.42,ts:'09:30:00'},
+  {reading_id:9004,batch_id:103,temp_c:7.2,ethylene_ppm:1.10,ts:'09:45:00'},
+  {reading_id:9005,batch_id:104,temp_c:4.8,ethylene_ppm:0.65,ts:'10:00:00'},
+  {reading_id:9006,batch_id:101,temp_c:2.5,ethylene_ppm:0.45,ts:'10:15:00'}
+]
+});
+const DS={
+  farmer:{pk:'farmer_id',cols:[['farmer_id','number'],['name','text'],['village','text']]},
+  crop:{pk:'crop_id',cols:[['crop_id','number'],['crop_name','text'],['temp_max','number'],['ethylene_max','number']]},
+  wh:{pk:'wh_id',cols:[['wh_id','number'],['name','text'],['city','text'],['capacity_kg','number']]},
+  batch:{pk:'batch_id',cols:[['batch_id','number'],['farmer_id','number'],['crop_id','number'],['wh_id','number'],['qty_kg','number']],fk:{farmer_id:'farmer',crop_id:'crop',wh_id:'wh'}},
+  read:{pk:'reading_id',cols:[['reading_id','number'],['batch_id','number'],['temp_c','number'],['ethylene_ppm','number'],['ts','text']],fk:{batch_id:'batch'}}
+};
+const TN={farmer:'Farmer',crop:'Crop',wh:'Warehouse',batch:'Batch',read:'SensorReading'},LB={farmer:r=>r.name,crop:r=>r.crop_name,wh:r=>r.name,batch:r=>'batch '+r.batch_id};
+let DB,tab='batch',msg=null;
+try{DB=JSON.parse(localStorage.getItem('agrinova-db-v2'))||JSON.parse(localStorage.getItem('agrinova-db'))}catch(e){}
+if(!DB||!DB.farmer||!DB.crop||DB.crop.length<4)DB=SEED();
+const sv=()=>{try{localStorage.setItem('agrinova-db-v2',JSON.stringify(DB))}catch(e){}};
+function chk(t,r){const d=DS[t];
+ for(const c of d.cols)if(r[c[0]]===''||(typeof r[c[0]]=='number'&&isNaN(r[c[0]])))return `NOT NULL violated: ${c[0]} is required.`;
+ if(DB[t].some(x=>x[d.pk]==r[d.pk]))return `PRIMARY KEY violated: ${d.pk} = ${r[d.pk]} already exists.`;
+ for(const c in d.fk||{})if(!DB[d.fk[c]].some(x=>x[DS[d.fk[c]].pk]==r[c]))return `FOREIGN KEY violated: ${c} = ${r[c]} not found in ${TN[d.fk[c]]}.`;
+ if(t=='wh'&&r.capacity_kg<=0)return 'CHECK violated: capacity_kg > 0.';
+ if(t=='batch'){if(r.qty_kg<=0)return 'CHECK violated: qty_kg > 0.';const w=DB.wh.find(x=>x.wh_id==r.wh_id),u=DB.batch.filter(b=>b.wh_id==r.wh_id).reduce((s,b)=>s+b.qty_kg,0);if(u+r.qty_kg>w.capacity_kg)return `CHECK violated: ${w.name} would hold ${u+r.qty_kg} kg but its capacity is ${w.capacity_kg} kg.`}
+ if(t=='read'){const c=DB.crop.find(x=>x.crop_id==DB.batch.find(b=>b.batch_id==r.batch_id).crop_id);
+  if(r.temp_c>c.temp_max)return `CHECK violated: ${r.temp_c} °C is above the ${c.crop_name} limit of ${c.temp_max} °C. ROLLBACK.`;
+  if(r.ethylene_ppm>c.ethylene_max)return `CHECK violated: ${r.ethylene_ppm} ppm is above the ${c.crop_name} limit of ${c.ethylene_max} ppm. ROLLBACK.`}
+ return null}
+const vals=(t,r)=>DS[t].cols.map(([c,ty])=>ty=='number'?r[c]:`'${r[c]}'`).join(', ');
+function ins(){const d=DS[tab],r={};d.cols.forEach(([c,ty])=>{const v=$('#f_'+c).value.trim();r[c]=ty=='number'?(v===''?NaN:+v):(v===''&&c=='ts'?new Date().toTimeString().split(' ')[0]:v)});
+ const e=chk(tab,r),sql=`INSERT INTO ${TN[tab]} VALUES (${vals(tab,r)});`;
+ if(e)msg={bad:1,sql,t:e};else{DB[tab].push(r);sv();msg={sql,t:'1 row inserted. All constraints satisfied.'}}draw2()}
+function del(i){const d=DS[tab],r=DB[tab][i],id=r[d.pk],col={farmer:'farmer_id',crop:'crop_id',wh:'wh_id'}[tab],sql=`DELETE FROM ${TN[tab]} WHERE ${d.pk} = ${id};`;
+ if(col&&DB.batch.some(b=>b[col]==id))msg={bad:1,sql,t:`FOREIGN KEY RESTRICT: ${DB.batch.filter(b=>b[col]==id).length} batch row(s) still use this ${TN[tab]}. Delete them first.`};
+ else{let x='';if(tab=='batch'){const n=DB.read.filter(q=>q.batch_id==id).length;DB.read=DB.read.filter(q=>q.batch_id!=id);x=` ON DELETE CASCADE also removed ${n} sensor reading(s).`}DB[tab].splice(i,1);sv();msg={sql,t:'1 row deleted.'+x}}draw2()}
+function upd(i,c,v){const d=DS[tab],ty=d.cols.find(x=>x[0]==c)[1],old=DB[tab][i],nr={...old,[c]:ty=='number'?(v.trim()===''?NaN:+v):v.trim()};
+ const sql=`UPDATE ${TN[tab]} SET ${c} = ${ty=='number'?nr[c]:`'${nr[c]}'`} WHERE ${d.pk} = ${old[d.pk]};`;
+ DB[tab].splice(i,1);let e=chk(tab,nr);
+ if(!e&&tab=='wh'){const u=DB.batch.filter(b=>b.wh_id==nr.wh_id).reduce((s,b)=>s+b.qty_kg,0);if(u>nr.capacity_kg)e=`CHECK violated: ${u} kg are already stored, more than the new capacity.`}
+ DB[tab].splice(i,0,e?old:nr);if(!e)sv();msg=e?{bad:1,sql,t:e}:{sql,t:'1 row updated. All constraints satisfied.'};draw2()}
+function rdb(){DB=SEED();sv();msg=null;draw2()}
+function draw2(){
+ $('#dtabs').innerHTML=Object.keys(DS).map(k=>`<button class="${k==tab?'on':''}" onclick="tab='${k}';msg=null;draw2()">${TN[k]}</button>`).join('');
+ const d=DS[tab],nx=Math.max(0,...DB[tab].map(r=>r[d.pk]))+1;
+ $('#dform').innerHTML=d.cols.map(([c,ty])=>{const f=d.fk&&d.fk[c];return `<label class="fl"><small>${c}</small>`+(f?`<select id="f_${c}">${DB[f].map(r=>`<option value="${r[DS[f].pk]}">${r[DS[f].pk]} · ${LB[f](r)}</option>`).join('')}</select>`:`<input id="f_${c}" type="${ty}" step="any" ${c==d.pk?`value="${nx}"`:c=='ts'?`value="${new Date().toTimeString().split(' ')[0]}"`:''} placeholder="${c}">`)+'</label>'}).join('')+'<button class="btn p" onclick="ins()">Insert row</button>';
+ $('#dtab').innerHTML=`<table><tr>${d.cols.map(c=>`<th>${c[0]}</th>`).join('')}<th></th></tr>${DB[tab].map((r,i)=>`<tr>${d.cols.map(([c,ty])=>{const f=d.fk&&d.fk[c];return '<td>'+(c==d.pk?`<b>${r[c]}</b>`:f?`<select class="ce" onchange="upd(${i},'${c}',this.value)">${DB[f].map(p=>`<option value="${p[DS[f].pk]}" ${p[DS[f].pk]==r[c]?'selected':''}>${p[DS[f].pk]} · ${LB[f](p)}</option>`).join('')}</select>`:`<input class="ce" type="${ty}" step="any" value="${r[c]}" onchange="upd(${i},'${c}',this.value)">`)+'</td>'}).join('')}<td><button class="x" title="Delete row" onclick="del(${i})">×</button></td></tr>`).join('')||'<tr><td colspan="9">No rows yet</td></tr>'}</table><p class="sm" style="margin:10px 0 0">Edit any cell directly. Every change is checked against the same constraints.</p>`;
+ $('#dmsg').innerHTML=msg?`<div class="msg ${msg.bad?'bad':''}"><code>${msg.sql}</code><br>${msg.t}</div>`:'';
+ $('#dov').innerHTML=DB.batch.map(b=>{const c=DB.crop.find(x=>x.crop_id==b.crop_id),f=DB.farmer.find(x=>x.farmer_id==b.farmer_id),w=DB.wh.find(x=>x.wh_id==b.wh_id),rs=DB.read.filter(x=>x.batch_id==b.batch_id),l=rs[rs.length-1],p=v=>Math.max(0,Math.min(100,v/(c.temp_max*2)*100)),ok=!l||(l.temp_c<=c.temp_max&&l.ethylene_ppm<=c.ethylene_max);
+  return `<div class="card"><b>Batch ${b.batch_id} · ${c.crop_name}</b><div class="sm" style="margin:4px 0 14px">${f.name} · ${w.name} · ${b.qty_kg} kg</div><div class="meter"><div class="band" style="left:0;width:50%"></div>${l?`<div class="dot" style="left:${p(l.temp_c)}%;background:${ok?'var(--g)':'var(--bad)'}"></div>`:''}</div><div class="sm" style="margin:10px 0 0">${l?`Latest ${l.temp_c} °C · ${l.ethylene_ppm} ppm · ${rs.length} reading(s) · safe up to ${c.temp_max} °C`:'No readings yet'}</div></div>`}).join('')||'<div class="sm">No batches yet. Add a farmer, crop and warehouse, then a batch.</div>';
+ $('#dwh').innerHTML=DB.wh.map(w=>{const u=DB.batch.filter(b=>b.wh_id==w.wh_id).reduce((s,b)=>s+b.qty_kg,0),p=Math.min(100,u/w.capacity_kg*100);return `<div style="margin-bottom:12px"><div class="sl" style="margin:0 0 4px"><span>${w.name}</span><b>${u} / ${w.capacity_kg} kg</b></div><div class="meter"><div class="band" style="left:0;width:${p}%;background:${p>90?'rgba(248,113,113,.6)':'rgba(163,230,53,.45)'}"></div></div></div>`}).join('')||'<div class="sm">No warehouses yet.</div>';
+ Object.keys(DS).forEach(k=>{TB[k][3]=DS[k].cols.map(c=>c[0]);TB[k][4]=DB[k].map(r=>DS[k].cols.map(c=>r[c[0]]))});sch()}
+draw2();
+/* export with user data */
+function md(s){$('#md').style.display=s?'flex':'none';if(s)$('#mp').textContent='-- ============================================================================\n-- AGRINOVA: ANOMALY-FREE POST-HARVEST PRESERVATION SCHEMA (BCNF)\n-- Course: Database Engineering (DBE) - Semester 3\n-- Dialect: ANSI SQL Standard (PostgreSQL, MySQL 8+, SQLite)\n-- See also: agrinova.sql for the complete standalone script\n-- ============================================================================\n\n'+Object.values(TB).map(t=>t[2]).join('\n\n')+'\n\nCREATE TABLE Shipment (\n  trip_id INT PRIMARY KEY,\n  batch_id INT NOT NULL REFERENCES Batch,\n  from_wh INT REFERENCES Warehouse,\n  to_wh INT REFERENCES Warehouse,\n  vehicle VARCHAR(30),\n  dispatch_ts TIMESTAMP\n);\n\n-- ============================================================================\n-- CLEAN SEED DATA (DML)\n-- ============================================================================\n'+Object.keys(DS).map(k=>`-- ${TN[k]} Table Records\n`+DB[k].map(r=>`INSERT INTO ${TN[k]} VALUES (${vals(k,r)});`).join('\n')).join('\n\n')}
+/* transactions with your numbers */
+function run(){const c=+$('#tc').value,a=+$('#ta').value,b=+$('#tb').value;$('#l1').className=lock?'on':'';$('#l2').className=!lock?'on':'';
+ const R=lock?[[0,`LOCK · read ${c}`,c],[2,'waits for lock…',c],[0,`write ${c-a} · COMMIT`,c-a],[2,`LOCK · read ${c-a}`,c-a],c-a-b<0?[2,`only ${c-a} left · ROLLBACK`,c-a]:[2,`write ${c-a-b} · COMMIT`,c-a-b]]:[[0,`read ${c}`,c],[2,`read ${c}`,c],[0,`write ${c-a} · COMMIT`,c-a],[2,`write ${c-b} · COMMIT (overwrites T1)`,c-b]];
+ $('#tx').innerHTML=R.map(r=>`<div class="row"><div class="${r[0]?'e':''}">${r[0]?'':r[1]}</div><div class="v">${r[2]}</div><div class="${r[0]?'':'e'}">${r[0]?r[1]:''}</div></div>`).join('')+(lock?(c-a-b<0?`<div class="msg">Locking is safe: T2 is rejected cleanly because only ${c-a} units remain.</div>`:`<div class="msg">${a+b} units booked, ${c-a-b} left. Both bookings counted.</div>`):`<div class="msg bad">${a+b} units were booked but ${c-b} show as free. T1’s booking was lost.</div>`)}
+run();
+/* motion: tilt, spotlight, scroll */
+const TS='.node,.rung,.gb,.fn,#dov .card,.pn .card,.gs div',GS=TS+',.card,.hexw';let lastEl=null;
+addEventListener('mousemove',e=>{const el=e.target.closest&&e.target.closest(GS);if(lastEl&&lastEl!==el){lastEl.style.removeProperty('--rx');lastEl.style.removeProperty('--ry')}lastEl=el;if(!el)return;const r=el.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;el.style.setProperty('--mx',x+'px');el.style.setProperty('--my',y+'px');if(el.matches(TS)){el.style.setProperty('--rx',((.5-y/r.height)*10).toFixed(1)+'deg');el.style.setProperty('--ry',((x/r.width-.5)*12).toFixed(1)+'deg')}});
+const spb=$('#sp'),orbs=[...document.querySelectorAll('.orbs i')];
+addEventListener('scroll',()=>{const y=scrollY,m=document.documentElement.scrollHeight-innerHeight;spb.style.width=(m>0?y/m*100:0)+'%';document.documentElement.style.setProperty('--sy',y);orbs.forEach((o,i)=>o.style.transform=`translateY(${-y*(.05+i*.04)}px)`)},{passive:true});
+</script></body></html>
