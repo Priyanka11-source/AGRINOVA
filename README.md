@@ -3,7 +3,9 @@
 **Course:** Database Engineering (DBE) – Semester 3  
 **Domain:** Agricultural Supply Chain & Cold-Chain Post-Harvest Preservation  
 **Primary Paradigm:** Relational Database Management Systems (RDBMS) & Boyce-Codd Normal Form (BCNF)  
-**Live Local Web App:** [http://localhost:8000/AGRINOVA.html](http://localhost:8000/AGRINOVA.html) (or [http://localhost:8000/](http://localhost:8000/))
+**Live Web Application:** [https://priyanka11-source.github.io/AGRINOVA/](https://priyanka11-source.github.io/AGRINOVA/)  
+**GitHub Repository:** [https://github.com/Priyanka11-source/AGRINOVA](https://github.com/Priyanka11-source/AGRINOVA)  
+**Local Preview:** [http://localhost:8000/](http://localhost:8000/) (or `python -m http.server 8000`)
 
 ---
 
